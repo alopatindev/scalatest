@@ -46,7 +46,7 @@ package org.scalatest.words
  * <a href="../FlatSpec.html#SharedTests"><code>FlatSpec</code></a>, or <a href="../WordSpec.html#SharedTests"><code>WordSpec</code></a>.
  * </p>
  */
-final class BehaveWord {
+final class BehaveWord extends Serializable {
 
   /**
    * Supports the registration of shared tests.

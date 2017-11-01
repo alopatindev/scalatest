@@ -51,7 +51,7 @@ StringVerbBlockRegistration, SubjectWithAfterWordRegistration}
 @Finders(Array("org.scalatest.finders.WordSpecFinder"))
 trait WordSpecLike extends TestSuite with TestRegistration with ShouldVerb with MustVerb with CanVerb with Informing with Notifying with Alerting with Documenting { thisSuite =>
 
-  private final val engine = new FixtureEngine[FixtureParam](Resources.concurrentFixtureWordSpecMod, "FixtureWordSpec")
+  @transient private final lazy val engine = new FixtureEngine[FixtureParam](Resources.concurrentFixtureWordSpecMod, "FixtureWordSpec")
 
   import engine._
 
@@ -834,7 +834,7 @@ trait WordSpecLike extends TestSuite with TestRegistration with ShouldVerb with 
    * for <code>WordSpec</code>.
    * </p>
    */
-  protected final class ItWord {
+  protected final class ItWord extends Serializable {
 
     /**
      * Supports the registration of scope with <code>should</code> in a <code>WordSpecLike</code>.
@@ -977,7 +977,7 @@ trait WordSpecLike extends TestSuite with TestRegistration with ShouldVerb with 
    * for <code>WordSpec</code>.
    * </p>
    */
-  protected final class TheyWord {
+  protected final class TheyWord extends Serializable {
 
     /**
      * Supports the registration of scope with <code>should</code> in a <code>WordSpecLike</code>.
@@ -1133,7 +1133,7 @@ trait WordSpecLike extends TestSuite with TestRegistration with ShouldVerb with 
    * subject and executes the block.
    * </p>
    */
-  protected implicit val subjectRegistrationFunction: StringVerbBlockRegistration =
+  @transient protected implicit lazy val subjectRegistrationFunction: StringVerbBlockRegistration =
     new StringVerbBlockRegistration {
       def apply(left: String, verb: String, pos: source.Position, f: () => Unit): Unit = registerBranch(left, Some(verb), verb, "apply", 6, -2, pos, f)
     }
@@ -1160,7 +1160,7 @@ trait WordSpecLike extends TestSuite with TestRegistration with ShouldVerb with 
    * subject and executes the block.
    * </p>
    */
-  protected implicit val subjectWithAfterWordRegistrationFunction: SubjectWithAfterWordRegistration =
+  @transient protected implicit lazy val subjectWithAfterWordRegistrationFunction: SubjectWithAfterWordRegistration =
     new SubjectWithAfterWordRegistration {
       def apply(left: String, verb: String, resultOfAfterWordApplication: ResultOfAfterWordApplication, pos: source.Position): Unit = {
         val afterWordFunction =

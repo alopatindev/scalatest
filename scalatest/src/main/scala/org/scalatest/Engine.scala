@@ -37,7 +37,7 @@ import org.scalatest.exceptions.TestPendingException
 import org.scalatest.exceptions.TestRegistrationClosedException
 
 // T will be () => Unit for FunSuite and FixtureParam => Any for fixture.FunSuite
-private[scalatest] sealed abstract class SuperEngine[T](concurrentBundleModMessageFun: => String, simpleClassName: String) {
+private[scalatest] sealed abstract class SuperEngine[T](concurrentBundleModMessageFun: => String, simpleClassName: String) extends Serializable {
 
   sealed abstract class Node(val parentOption: Option[Branch]) {
     def indentationLevel: Int = {
